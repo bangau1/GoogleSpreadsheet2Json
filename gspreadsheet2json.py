@@ -13,7 +13,10 @@ import time
 import json
 import re
 import codecs
-from collections import OrderedDict
+try:
+  from collections import OrderedDict
+except:
+  from ordereddict import OrderedDict
 
 class TypeEnum:
   INT = "int"
