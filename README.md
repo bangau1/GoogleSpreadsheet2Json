@@ -70,7 +70,7 @@ if __name__ == "__main__":
 
 Now run the **sample.py** on terminal ``python sample.py``, and it wil prompt the gmail, password of your gmail, and the spreadsheet key. 
 
-You can pass `0AtNKAJYAGxJ1dFhuVnBlZzQ0V1Rhck13Qk5lR2lMeGc` as the spreadsheet key, as I have made my spreadsheet as public, so anyone can view/download it.
+You can pass `0AtNKAJYAGxJ1dFhuVnBlZzQ0V1Rhck13Qk5lR2lMeGc` as the spreadsheet key, as I have made my spreadsheet as public, so anyone can view/download it. But, before that, you have to open the spreadsheet's link first [here](https://docs.google.com/spreadsheet/ccc?key=0AtNKAJYAGxJ1dFhuVnBlZzQ0V1Rhck13Qk5lR2lMeGc#gid=0). 
 
  If the authentication process is successful, it will download all the .json files inside the output folder you pass on the script. If you use my spreadsheet, then it will download 2 json file: **example_ws.json** and **other_ws.json**
 
