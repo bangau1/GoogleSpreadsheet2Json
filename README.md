@@ -12,7 +12,7 @@ This script will allow you to download Spreadsheet's worksheets as json format.
 	
 2. Download & Install GoogleSpreadsheet2Json 
 	
-	Download GoogleSpreadsheet2Json's zip file and uncompress it. Run `python setup.py install` to install the library.
+	Download GoogleSpreadsheet2Json's [zip file](https://github.com/bangau1/GoogleSpreadsheet2Json/archive/master.zip) and uncompress it. Run `python setup.py install` to install the library.
 
 ## Sample Usage
 ### Setup Example Spreadsheet

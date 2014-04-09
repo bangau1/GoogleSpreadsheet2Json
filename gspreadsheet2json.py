@@ -190,11 +190,17 @@ class DownloadJson:
     self.folder = folder
     self.filterWS = filterWS
 
+  def shouldDownloadThisWS(self, worksheetName):
+    if self.filterWS == None or len(self.filterWS) == 0:
+      return True
+    else:
+      return worksheetName in self.filterWS
+
   def Run(self):
     worksheetsFeed = self.gd_client.GetWorksheetsFeed(self.spreadsheetKey)
     workers = []
     for ws in worksheetsFeed.entry:
-      if self.filterWS != None and (not ws.title.text in self.filterWS):
+      if not self.shouldDownloadThisWS(ws.title.text):
         continue
       print "process:", ws.title.text
       worker = self.ProcessWorksheetThread(ws)
