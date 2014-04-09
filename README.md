@@ -1,10 +1,12 @@
 GoogleSpreadsheet2Json
 ====
+**Only for python 2.6.x or 2.7.x**
+
 This script will allow you to download Spreadsheet's worksheets as json format.
 
 
-
 ## Installation
+
 1. Download & Install gdata-python-client Library
 
 	Go to the [link](https://code.google.com/p/gdata-python-client/downloads/list) and download the latest library(eq: gdata-2.0.18.zip). Extract the zip file and follow the setup instruction from there.
@@ -12,7 +14,13 @@ This script will allow you to download Spreadsheet's worksheets as json format.
 	
 2. Download & Install GoogleSpreadsheet2Json 
 	
-	Download GoogleSpreadsheet2Json's [zip file](https://github.com/bangau1/GoogleSpreadsheet2Json/archive/master.zip) and uncompress it. Run `python setup.py install` to install the library.
+	a. Download GoogleSpreadsheet2Json's zip file and uncompress it. 
+	
+	b. If your python version is not 2.7.x (which is 2.6.x), then please install `ordereddict` module :
+
+		`pip install ordereddict`
+	
+	c. Run `python setup.py install` to install the library.
 
 ## Sample Usage
 ### Setup Example Spreadsheet
