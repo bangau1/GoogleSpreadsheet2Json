@@ -13,6 +13,7 @@ import time
 import json
 import re
 import codecs
+import threading
 try:
   from collections import OrderedDict
 except:
@@ -38,7 +39,7 @@ class FileHelper:
       os.makedirs(folderpath)
 
 class Parse(Thread):
-  def __init__(self, name, dirpath, gdServiceClient, spreadsheetKey, worksheetEntry):
+  def __init__(self, name, dirpath, gdServiceClient, spreadsheetKey, worksheetEntry, OnFinished, parentStarter):
     self.hasInit = False
     Thread.__init__(self)
     self.name = name
@@ -47,6 +48,8 @@ class Parse(Thread):
     self.spreadsheetKey = spreadsheetKey
     self.worksheetEntry = worksheetEntry
     self.hasInit = True
+    self.OnFinished = OnFinished
+    self.parentObject = parentStarter
 
   def run(self):
     self.isRunning = True
@@ -65,6 +68,8 @@ class Parse(Thread):
     except Exception as e:
       print e
     self.isRunning = False
+    if self.OnFinished!=None:
+      self.OnFinished(self.parentObject, self.name)
 
   def parseCell(self, cellFeed):
     self.lines = {}
@@ -192,6 +197,18 @@ class DownloadJson:
     self.gd_client.ProgrammaticLogin()
     self.folder = folder
     self.filterWS = filterWS
+    self.counter = 0
+    self.lock = threading.Lock()
+  @staticmethod
+  def finishThreadCallback(downloadJson, name):
+    if downloadJson!=None:
+      downloadJson.finishCallback(name)
+
+  def finishCallback(self, name):
+    self.lock.acquire()
+    print "finish downloading:'"+name+"'" 
+    self.counter=self.counter-1
+    self.lock.release()
 
   def shouldDownloadThisWS(self, worksheetName):
     if self.filterWS == None or len(self.filterWS) == 0:
@@ -202,22 +219,24 @@ class DownloadJson:
   def Run(self):
     worksheetsFeed = self.gd_client.GetWorksheetsFeed(self.spreadsheetKey)
     workers = []
+    maxRequest = 10
     for ws in worksheetsFeed.entry:
       if not self.shouldDownloadThisWS(ws.title.text):
         continue
-      print "process:", ws.title.text
+      while self.counter > maxRequest:
+        pass
+      print "process:", ws.title.text, self.counter
       worker = self.ProcessWorksheetThread(ws)
+      self.lock.acquire()
+      self.counter=self.counter+1
       worker.start()
-      workers.append(worker)
-    isFinishAll = False
-    while not isFinishAll:
-      isFinishAll = True
-      for worker in workers:
-        isFinishAll = isFinishAll and worker.isFinish()
-
+      self.lock.release()
+    
+    while self.counter > 0:
+      pass
 
   def ProcessWorksheetThread(self, worksheetEntry):
-    return Parse(worksheetEntry.content.text, self.folder, self.gd_client, self.spreadsheetKey, worksheetEntry)
+    return Parse(worksheetEntry.content.text, self.folder, self.gd_client, self.spreadsheetKey, worksheetEntry, DownloadJson.finishThreadCallback, self)
 
 def download(username, password, spreadsheetKey, foldername="temp", filterWS=[]):
   t0 = time.time()
