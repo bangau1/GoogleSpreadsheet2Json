@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name='GoogleSpreadsheet2Json',
-      version='0.1.7',
+      version='0.1.8',
       description='Python Util to Download Google Worksheet as JSON format',
       author='Agung Pratama',
       author_email='agp.csui08@gmail.com',
