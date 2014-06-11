@@ -90,6 +90,8 @@ There are some rule and limitation for this current version of gspreadsheet2json
 | `str`, `string`		|`string` 				| "data":"You can put utf-8 character too like 何これ？"|
 | `int[]`, `integer[]` 	|`int[]`    			| "data":[12, 34, 0, 123, 9]|
 | `double[]`, `float[]`	|`float[]`    			| "data":[1.09, 1.00, 12.31]|
+| `int[][]`, `integer[][]` 	|`int[][]`    		| "data":[[12,35,1],[1,35]]
+| `float[][]`, `double[][]` 	|`float[][]`	| "data":[[12.12,35.4,1.2],[1.0,35.13]]
 
 	If the datatype column's content is not listed in the *Second Row's content*, it will be skipped. For example: `comment` on the F3 (like my spreadsheet example), then that column will be skipped.
 	

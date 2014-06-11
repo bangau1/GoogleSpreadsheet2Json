@@ -25,7 +25,9 @@ class TypeEnum:
   BOOL = "bool"
   STRING = "str"
   INT_ARRAY = "int[]"
+  INT_2D_ARRAY = "int[][]"
   FLOAT_ARRAY = "f[]"
+  FLOAT_2D_ARRAY = "f[][]"
   NONE = "None"
 
 class FileHelper:
@@ -147,8 +149,12 @@ class Parse(Thread):
       return None
     elif typeEnum == TypeEnum.INT_ARRAY:
       return []
+    elif typeEnum == TypeEnum.INT_2D_ARRAY:
+      return None
     elif typeEnum == TypeEnum.FLOAT_ARRAY:
       return []
+    elif typeEnum == TypeEnum.FLOAT_2D_ARRAY:
+      return None
     else:
       return None
 
@@ -166,8 +172,24 @@ class Parse(Thread):
       return value.decode("utf-8")
     elif typeEnum == TypeEnum.INT_ARRAY:
       return map(int, value.split(","))
+    elif typeEnum == TypeEnum.INT_2D_ARRAY:
+      data = json.loads("["+value+"]")
+      for i in xrange(len(data)):
+        if data[i] == None:
+          continue
+        for j in  xrange(len(data[i])):
+          data[i][j] = int(data[i][j])
+      return data
     elif typeEnum == TypeEnum.FLOAT_ARRAY:
       return map(float, value.split(","))
+    elif typeEnum == TypeEnum.FLOAT_2D_ARRAY:
+      data = json.loads("["+value+"]")
+      for i in xrange(len(data)):
+        if data[i] == None:
+          continue
+        for j in  xrange(len(data[i])):
+          data[i][j] = float(data[i][j])
+      return data
     else:
       return None
 
@@ -182,11 +204,14 @@ class Parse(Thread):
       return TypeEnum.STRING;
     elif t == "float" or t == "double":
       return TypeEnum.FLOAT;
-
     elif t == "int[]" or t == "integer[]":
       return TypeEnum.INT_ARRAY;
+    elif t == "int[][]" or t == "integer[][]":
+      return TypeEnum.INT_2D_ARRAY;
     elif t == "float[]" or t == "double[]":
       return TypeEnum.FLOAT_ARRAY;
+    elif t == "float[][]" or t == "double[][]":
+      return TypeEnum.FLOAT_2D_ARRAY;
     else:
       return TypeEnum.NONE
 
